@@ -1,2 +1,7 @@
 .venv/
 build/
+test.*
+dist/
+__pycache__
+*.egg-info
+.vscode/

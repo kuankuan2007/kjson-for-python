@@ -6,7 +6,7 @@ setup(
     name="kjsonForPython",
     version="1.0.0",
     keywords=["kjson", "json", "javascript", "network"],
-    description="Manage files more easily",
+    description="A json library for python, which can be used in network communication",
     long_description=open("README.md", "r", encoding="utf-8").read(),
     author="kuankuan",
     author_email="2163826131@qq.com",

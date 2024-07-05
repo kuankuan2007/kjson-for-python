@@ -132,6 +132,7 @@ class KJsonArray(SpecialValueType):
         return str(id)
 
     def replacer(self, value: str, saveList: List[Any]):
+        print(saveList)
         return saveList[int(value)]
 
 class KJsonObject(SpecialValueType):

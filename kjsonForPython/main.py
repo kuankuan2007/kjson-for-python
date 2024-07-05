@@ -12,23 +12,22 @@ def structureKJSONList(data: Any) -> Any:
     def dfsTransform(data: Any, saveList: List[Any]) -> Any:
         returnValue = data
         if isinstance(data, list):
-            returnValue = [dfsTransform(item, saveList) for item in data]
+            for value in range(len(data)):
+                data[value] = dfsTransform(data[value], saveList)
         if isinstance(data, dict):
-            returnValue = {
-                key: dfsTransform(value, saveList) for key, value in data.items()
-            }
+            for key, value in data.items():
+                data[key] = dfsTransform(value, saveList)
         if isinstance(data, str):
             result = re.match(r"^(.*)::([a-zA-Z\d]+)$", data, flags=re.S)
             if result == None:
-
                 raise ValueError(
                     "Invalid K-JSON data which is string but could not be parsed"
                 )
             result = result.groups()
-            if len(result) < 3:
+            if len(result) < 2:
                 raise ValueError("Invalid K-JSON data which has unknown type")
-            data = result[1]
-            ty = result[2]
+            data = result[0]
+            ty = result[1]
             flag = False
             for key, value in typeMap.items():
                 if key == ty:
@@ -38,8 +37,7 @@ def structureKJSONList(data: Any) -> Any:
                 raise ValueError("Invalid K-JSON data which has unknown type")
         return returnValue
 
-    dfsTransform(data, data)
-    return data[0]
+    return dfsTransform(data, data)[0]
 
 
 def parse(data: str) -> Any:
@@ -63,5 +61,7 @@ def normalizeToKJSONList(obj: Any) -> Any:
 
     result = dfsTransform(obj)
     return saveList if len(saveList) else result
+
+
 def stringify(data: Any) -> str:
     return json.dumps(normalizeToKJSONList(data))
